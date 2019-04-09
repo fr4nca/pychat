@@ -1,11 +1,30 @@
 from socket import socket, AF_INET, SOCK_STREAM
+from threading import Thread
 
-HOST = 'localhost'
-PORT = 12345
+HOST = '127.0.0.1'
+PORT = 23232
 
-with socket(AF_INET, SOCK_STREAM) as cliente:
-  cliente.connect((HOST, PORT))
-  cliente.sendall(b"Hello, world")
-  data = cliente.recv(1024)
+cliente = socket(AF_INET, SOCK_STREAM)
+cliente.connect((HOST, PORT))
 
-print('Recebido', repr(data))
+def receive():
+  while True:
+    try:
+      msg = cliente.recv(1024).decode("utf8")
+      print(msg)
+    except OSError:
+      break
+
+def send():
+  while True:
+    msg = input()
+    cliente.send(bytes(msg, "utf8"))
+    if msg == "{Exit}":
+      cliente.close()
+
+msg = input("Digite seu nome: ")
+cliente.send(bytes(msg, "utf8"))
+
+if __name__ == "__main__":
+  Thread(target=receive).start()
+  send()
