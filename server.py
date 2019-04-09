@@ -22,13 +22,14 @@ def iniciar():
 	# Loop eterno
 	while True:
 		# Escuta conexões
-		cliente = server.accept()
+		cliente, endereco = server.accept()
 		# Inicia a thread com a função handle_client()
 		Thread(target=handle_client, args=(cliente,)).start()
 
 # Função para lidar com os clientes
 def handle_client(cliente):
 	# Função para "cadastrar" o cliente
+	print(clientes)
 	assign_client(cliente)
 
 	# Loop eterno
