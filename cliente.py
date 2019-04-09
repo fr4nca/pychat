@@ -2,19 +2,19 @@ from socket import socket, AF_INET, SOCK_STREAM
 from threading import Thread
 
 HOST = '127.0.0.1'
-PORT = 12345
+PORT = 11234
 
 cliente = socket(AF_INET, SOCK_STREAM)
 cliente.connect((HOST, PORT))
 
 
 def receive():
-    while True:
-        try:
-            msg = cliente.recv(1024).decode("utf8")
-            print(msg)
-        except OSError:
-            break
+while True:
+try:    
+    msg = cliente.recv(1024).decode("utf8")
+    print(msg)
+except OSError:
+    break
 
 
 def send():

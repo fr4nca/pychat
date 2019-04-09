@@ -2,7 +2,7 @@ from socket import socket, SOCK_STREAM, AF_INET
 from threading import Thread
 
 HOST = '127.0.0.1'
-PORT = 12345
+PORT = 11234
 
 clientes = {}
 enderecos = {}
@@ -21,8 +21,8 @@ def iniciar():
 
 def handle_client(cliente):
     nome = cliente.recv(1024).decode("utf8")
-    bemvindoMsg = "Bem  vindo, %s. Para sair, digite 'Exit'." % nome
-    cliente.send(bytes(bemvindoMsg, "utf8"))
+    bemVindoMsg = "Bem  vindo, %s. Para sair, digite 'Exit'." % nome
+    cliente.send(bytes(bemVindoMsg, "utf8"))
     entrouMsg = "%s entrou no chat.." % nome
     sendToAll(entrouMsg)
     clientes[cliente] = nome
