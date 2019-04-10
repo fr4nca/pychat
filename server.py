@@ -29,7 +29,6 @@ def iniciar():
 # Função para lidar com os clientes
 def handle_client(cliente):
 	# Função para "cadastrar" o cliente
-	print(clientes)
 	assign_client(cliente)
 
 	# Loop eterno
@@ -120,8 +119,8 @@ def assign_client(cliente):
 # Retorna false se ja estiver cadastrado
 def verify_name(nome):
 	# Loop nos clientes e verifica
-	for cliente in clientes:
-		if clientes[cliente] == nome:
+	for name in clientes.values():
+		if name == nome:
 			return False
 	return True
 
