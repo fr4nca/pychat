@@ -5,7 +5,7 @@ from threading import Thread
 # Constantes globais
 # Endereço do servidor
 HOST = '127.0.0.1'
-PORT = 11234
+PORT = 12332
 
 # Dicionário para guardar os clientes
 clientes = {}
@@ -55,6 +55,8 @@ def handle_client(cliente):
 				elif tipo == "PRIVATE":
 					# Divide a mensagem em receptor e mensagem no :
 					receptor_mensagem = mensagem.split(": ", 1)
+					print(mensagem)
+
 					receptor = receptor_mensagem[0]
 					mensagem = bytes(nome + ": " + receptor_mensagem[1], "utf8")
 
@@ -89,7 +91,7 @@ def handle_client(cliente):
 # Função para "cadastrar" cliente
 def assign_client(cliente):
 	# Recebe o nick do cliente
-	cliente.send(bytes("Digite seu nick: ", "utf8"))
+	#cliente.send(bytes("Digite seu nick: ", "utf8"))
 	nome = cliente.recv(1024).decode("utf8")
 
 	# Função que verifica se o nome ja foi cadastrado

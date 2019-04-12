@@ -1,0 +1,108 @@
+#:import C kivy.utils.get_color_from_hex
+
+
+<Inicial>:
+    name:'inicial'
+    FloatLayout:
+        canvas.before:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: 'src/bg.jpg'
+        ActionBar:
+            pos_hint:{'top':1}
+            background_image: 'src/white-bg.png'
+            background_color:C("#000000")
+            ActionView:
+                ActionPrevious:
+                    title: 'Pychat'
+                    with_previous: False
+        Label:
+            text:'Pychat'
+            pos_hint:{'center_x':.5, 'center_y':.8}
+            font_size:sp(40)
+            color:C('#000000')
+
+        TextInput:
+            id:nickname
+            hint_text:'Nickname:'
+            font_size:sp(24)
+            pos_hint:{'center_x':.5, 'center_y':.5}
+            size_hint:(.4, .1)
+            halign:"center"
+            multiline:False
+
+        Button:
+            text:"Entrar"
+            size_hint:.4, .09
+            bold:True
+            pos_hint:{'center_x':.5, 'center_y':.15}
+            font_size:sp(24)
+            on_press:
+                root.send(nickname.text)
+                root.manager.current='chat'
+
+
+<Chat>:
+    name:'chat'
+    msgbox:box
+
+    FloatLayout:
+        canvas.before:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: 'src/bg.jpg'
+        ActionBar:
+            pos_hint:{'top':1}
+            background_image: 'src/white-bg.png'
+            background_color:C("#000000")
+            ActionView:
+                ActionPrevious:
+                    title: 'Pychat'
+                    with_previous: False
+
+        ScrollView:
+            size_hint:.9, .7
+            pos_hint:{'center_x':.5, 'center_y':.5}
+            canvas.before:
+                Color:
+                    rgba: .5, .5, .5, .5
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            GridLayout:
+                id:box
+                size_hint_y: None
+                cols:1
+                row_default_height: '20dp'
+                row_force_default: True
+                height: self.minimum_height
+                spacing: 10
+
+        Spinner:
+            id: spinner_type
+            text:'TIPO'
+            values: ('MSG', 'PRIVATE', 'NICK', 'EXIT')
+            size_hint:.1, .1
+            pos_hint:{'center_x':.1, 'center_y':.1}
+            on_text: root.spinner(spinner_type, spinner_type.text)
+
+        TextInput:
+			id:msg
+            text:'MSG: '
+            size_hint:.6, .1
+            pos_hint:{'center_x':.45, 'center_y':.1}
+            hint_text:'Digite sua mensagem aqui'
+            multiline:False
+            on_text_validate: 
+                root.send_msg(msg.text)
+                msg.text = 'MSG: '
+
+        Button:
+            size_hint:.2, .1
+            text:'Enviar'
+            pos_hint:{'center_x':.85, 'center_y':.1}
+			on_press:
+				root.send_msg(msg.text)
+				msg.text = 'MSG: '
