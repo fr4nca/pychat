@@ -5,7 +5,7 @@ from threading import Thread
 # Constantes globais
 # Endereço do servidor
 HOST = '127.0.0.1'
-PORT = 12332
+PORT = 12312
 
 # Dicionário para guardar os clientes
 clientes = {}

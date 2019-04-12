@@ -6,15 +6,18 @@ from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
 from kivy.core.window import Window
 from kivy.uix.label import Label
+from kivy.uix.button import Button
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
-from kivy.properties import ObjectProperty
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.popup import Popup
+from kivy.uix.floatlayout import FloatLayout
 
 
 # Constantes globais
 # Endereço do servidor
 HOST = '127.0.0.1'
-PORT = 12332
+PORT = 12312
 global cliente
 global sm
 
@@ -38,6 +41,17 @@ Builder.load_file('pychat.kv')
 class Chat(Screen):
     global sm
 
+
+    def pop_up(self, titlepop, mensagem, msgbotao):
+        self.layout = GridLayout(cols=1)
+        self.popuplb= Label(text=mensagem)
+        self.popupbt= Button(text=msgbotao)
+        self.layout.add_widget(self.popuplb)
+        self.layout.add_widget(self.popupbt)
+        self.popup = Popup(title=titlepop, auto_dismiss=False,content=self.layout, size_hint=(.5, .3))
+        self.popupbt.bind(on_press=self.popup.dismiss)
+        self.popup.open()
+
     def __init__(self, **kwargs):
         super(Chat, self).__init__(**kwargs)
 
@@ -48,7 +62,12 @@ class Chat(Screen):
                 # Buffer de recepção dos bytes decodificados do servidor
                 msg = cliente.recv(1024).decode("utf8")
                 print(msg)
-                sm.get_screen('chat').ids.box.add_widget(Label(text=msg, color=(0, 0, 0, 0)))
+                if msg == 'Ja existe um usuário com este nome. Por favor tente novamente com outro nome':
+                    msg = 'Ja existe um usuário com este nome.\nPor favor tente novamente com outro nome'
+                    self.pop_up(self, 'Nome Inválido', msg,'Tudo bem')
+                    sm.current='inicial'
+                else:
+                    sm.get_screen('chat').ids.box.add_widget(Label(text=msg, color=(0, 0, 0, 0)))
                 # self.msgbox.add_widget(Label(text='kldsmlkfmslkdfmslkdfm'))
                 # Escreve a mensagem na tela
             except Exception as e:
