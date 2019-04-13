@@ -15,11 +15,11 @@
             background_color:C("#000000")
             ActionView:
                 ActionPrevious:
-                    title: 'Pychat'
+                    title: 'PYCHAT'
                     with_previous: False
         Label:
             text:'Pychat'
-            pos_hint:{'center_x':.5, 'center_y':.8}
+            pos_hint:{'center_x':.5, 'center_y':.7}
             font_size:sp(40)
             color:C('#000000')
 
@@ -27,23 +27,30 @@
             id:nickname
             hint_text:'Nickname:'
             font_size:sp(24)
-            pos_hint:{'center_x':.5, 'center_y':.5}
+            pos_hint:{'center_x':.5, 'center_y':.45}
             size_hint:(.4, .1)
             halign:"center"
             multiline:False
             on_text_validate: 
                 root.send(nickname.text)
                 root.manager.current='chat'
+            on_text:
+                root.verificanick(nickname.text)
 
         Button:
+            id:bt
             text:"Entrar"
-            size_hint:.4, .09
+            size_hint:.3, .09
             bold:True
-            pos_hint:{'center_x':.5, 'center_y':.15}
+            pos_hint:{'center_x':.5, 'center_y':.25}
             font_size:sp(24)
             on_press:
                 root.send(nickname.text)
                 root.manager.current='chat'
+            background_color: C('#003399')
+            disabled: True
+
+        
 
 
 <Chat>:

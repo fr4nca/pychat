@@ -71,7 +71,7 @@ class Chat(Screen):
                 elif msg == 'Saindo...': break
                 else:
                     sm.get_screen('chat').ids.box.add_widget(Label(text=msg, color=(0, 0, 0, 0)))
-                # self.msgbox.add_widget(Label(text='kldsmlkfmslkdfmslkdfm'))
+                
                 # Escreve a mensagem na tela
             except Exception as e:
                 # Escreve o erro na tela
@@ -79,9 +79,11 @@ class Chat(Screen):
 
     def send_msg(self, msg):
         try:
+            print('Mensagem:',msg)
             if msg == 'Exit':
                 Window.close()
                 cliente.send(bytes(msg, 'utf8'))
+            
                 
             cliente.send(bytes(msg, 'utf8'))         
         except Exception as a:
@@ -101,7 +103,10 @@ class Chat(Screen):
     
 
 class Inicial(Screen):
+    global sm
+
     def send(self, nome):
+        print('mensagem: ', nome)
         Thread(target=Chat.receive, args=(Chat,)).start()
         try:
             # Buffer de leitura
@@ -111,6 +116,9 @@ class Inicial(Screen):
             # Escreve o erro na tela
             print("Ocorreu algum erro", a)
 
+    def verificanick(self, nome):
+        if not nome =='':
+            sm.get_screen('inicial').ids.bt.disabled = False
 
 class PyChatApp(App):
 
