@@ -31,6 +31,9 @@
             size_hint:(.4, .1)
             halign:"center"
             multiline:False
+            on_text_validate: 
+                root.send(nickname.text)
+                root.manager.current='chat'
 
         Button:
             text:"Entrar"
@@ -97,7 +100,8 @@
             multiline:False
             on_text_validate: 
                 root.send_msg(msg.text)
-                msg.text = 'MSG: '
+                msg.text='MSG: '
+                spinner_type.text='TIPO'
 
         Button:
             size_hint:.2, .1
@@ -105,4 +109,6 @@
             pos_hint:{'center_x':.85, 'center_y':.1}
 			on_press:
 				root.send_msg(msg.text)
-				msg.text = 'MSG: '
+                msg.text='MSG: '
+                spinner_type.text='TIPO'
+                

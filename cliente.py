@@ -17,9 +17,10 @@ from kivy.uix.floatlayout import FloatLayout
 # Constantes globais
 # Endereço do servidor
 HOST = '127.0.0.1'
-PORT = 12312
+PORT = 12332
 global cliente
 global sm
+
 
 
 try:
@@ -41,7 +42,6 @@ Builder.load_file('pychat.kv')
 class Chat(Screen):
     global sm
 
-
     def pop_up(self, titlepop, mensagem, msgbotao):
         self.layout = GridLayout(cols=1)
         self.popuplb= Label(text=mensagem)
@@ -58,14 +58,17 @@ class Chat(Screen):
     def receive(self):
         # Loop eterno
         while True:
+
             try:
                 # Buffer de recepção dos bytes decodificados do servidor
+                
                 msg = cliente.recv(1024).decode("utf8")
                 print(msg)
                 if msg == 'Ja existe um usuário com este nome. Por favor tente novamente com outro nome':
                     msg = 'Ja existe um usuário com este nome.\nPor favor tente novamente com outro nome'
                     self.pop_up(self, 'Nome Inválido', msg,'Tudo bem')
                     sm.current='inicial'
+                elif msg == 'Saindo...': break
                 else:
                     sm.get_screen('chat').ids.box.add_widget(Label(text=msg, color=(0, 0, 0, 0)))
                 # self.msgbox.add_widget(Label(text='kldsmlkfmslkdfmslkdfm'))
@@ -76,7 +79,11 @@ class Chat(Screen):
 
     def send_msg(self, msg):
         try:
-            cliente.send(bytes(msg, 'utf8'))                
+            if msg == 'Exit':
+                Window.close()
+                cliente.send(bytes(msg, 'utf8'))
+                
+            cliente.send(bytes(msg, 'utf8'))         
         except Exception as a:
             print('Ocorreu algum erro', a)
 

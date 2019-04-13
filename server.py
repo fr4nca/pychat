@@ -5,7 +5,7 @@ from threading import Thread
 # Constantes globais
 # Endereço do servidor
 HOST = '127.0.0.1'
-PORT = 12312
+PORT = 12332
 
 # Dicionário para guardar os clientes
 clientes = {}
@@ -55,7 +55,7 @@ def handle_client(cliente):
 				elif tipo == "PRIVATE":
 					# Divide a mensagem em receptor e mensagem no :
 					receptor_mensagem = mensagem.split(": ", 1)
-					print(mensagem)
+					# print(mensagem)
 
 					receptor = receptor_mensagem[0]
 					mensagem = bytes(nome + ": " + receptor_mensagem[1], "utf8")
@@ -81,6 +81,7 @@ def handle_client(cliente):
 		# Caso mensagem for "Exit"
 		else:
 			# Fecha conexão do clietne
+			cliente.send(bytes('Saindo...', 'utf8'))
 			cliente.close()
 			# Deleta do dicionário
 			del clientes[cliente]
