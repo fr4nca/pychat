@@ -54,7 +54,7 @@ def handle_client(cliente):
 
 				elif tipo == "PRIVATE":
 					# Divide a mensagem em receptor e mensagem no :
-					receptor_mensagem = men# self.msgbox.add_widget(Label(text='kldsmlkfmslkdfmslkdfm'))sagem.split(": ", 1)
+					receptor_mensagem = mensagem.split(": ", 1)
 					
 
 					receptor = receptor_mensagem[0]

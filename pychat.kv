@@ -16,16 +16,19 @@
             ActionView:
                 ActionPrevious:
                     title: 'PYCHAT'
+                    font_name:'src/Roboto-Light.ttf'
                     with_previous: False
         Label:
             text:'Pychat'
+            font_name:'src/coolveticarg.ttf'
             pos_hint:{'center_x':.5, 'center_y':.7}
-            font_size:sp(40)
+            font_size:sp(60)
             color:C('#000000')
 
         TextInput:
             id:nickname
             hint_text:'Nickname:'
+            font_name:'src/Roboto-Light.ttf'
             font_size:sp(24)
             pos_hint:{'center_x':.5, 'center_y':.45}
             size_hint:(.4, .1)
@@ -40,6 +43,7 @@
         Button:
             id:bt
             text:"Entrar"
+            font_name:'src/Roboto-Light.ttf'
             size_hint:.3, .09
             bold:True
             pos_hint:{'center_x':.5, 'center_y':.25}
@@ -69,7 +73,8 @@
             background_color:C("#000000")
             ActionView:
                 ActionPrevious:
-                    title: 'Pychat'
+                    title: 'PYCHAT'
+                    font_name:'src/Roboto-Light.ttf'
                     with_previous: False
 
         ScrollView:
@@ -92,7 +97,9 @@
 
         Spinner:
             id: spinner_type
+            background_color: C("#669999")
             text:'TIPO'
+            font_name:'src/Roboto-Light.ttf'
             values: ('MSG', 'PRIVATE', 'NICK', 'EXIT')
             size_hint:.1, .1
             pos_hint:{'center_x':.1, 'center_y':.1}
@@ -100,7 +107,9 @@
 
         TextInput:
 			id:msg
+            font_size:18
             text:'MSG: '
+            font_name:'src/Roboto-Light.ttf'
             size_hint:.6, .1
             pos_hint:{'center_x':.45, 'center_y':.1}
             hint_text:'Digite sua mensagem aqui'
@@ -111,8 +120,10 @@
                 spinner_type.text='TIPO'
 
         Button:
+            background_color: C('#003399')
             size_hint:.2, .1
             text:'Enviar'
+            font_name:'src/Roboto-Light.ttf'
             pos_hint:{'center_x':.85, 'center_y':.1}
 			on_press:
 				root.send_msg(msg.text)

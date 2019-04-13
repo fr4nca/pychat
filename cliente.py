@@ -70,7 +70,7 @@ class Chat(Screen):
                     sm.current='inicial'
                 elif msg == 'Saindo...': break
                 else:
-                    sm.get_screen('chat').ids.box.add_widget(Label(text=msg, color=(0, 0, 0, 0)))
+                    sm.get_screen('chat').ids.box.add_widget(Label(text=msg, color=(0, 0, 0, 0), font_size=17, font_name='src/Roboto-Light.ttf'))
                 
                 # Escreve a mensagem na tela
             except Exception as e:
