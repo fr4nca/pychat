@@ -40,40 +40,49 @@ def handle_client(cliente):
 
 		if msg != "Exit":
 			# Divide a mensagem em uma lista no : para identificar o tipo dela
-			tipo_mensagem = msg.split(": ", 1)
+			tipo_mensagem = msg.split(":", 1)
 
 			# Se a lista for menor que 2, não foi indicado um tipo
 			if len(tipo_mensagem) >= 2:
 				# Divide tipo e mensagem em variáveis diferentes
-				tipo = tipo_mensagem[0]
-				mensagem = tipo_mensagem[1]
+				if tipo_mensagem[1] != "" and tipo_mensagem[1] != " ":
+					tipo = tipo_mensagem[0]
+					mensagem = tipo_mensagem[1]
 
-				if tipo == "MSG":
-					# Envia mensagem para todos
-					send_to_all(nome + ": " + mensagem)
+					if tipo == "MSG":
+						# Envia mensagem para todos
+						send_to_all(nome + ":" + mensagem)
 
-				elif tipo == "PRIVATE":
-					# Divide a mensagem em receptor e mensagem no :
-					receptor_mensagem = mensagem.split(": ", 1)
+					elif tipo == "PRIVATE":
+						# Divide a mensagem em receptor e mensagem no :
+						receptor_mensagem = mensagem.split(":", 1)
+
+						if len(receptor_mensagem) >= 2:
+							if receptor_mensagem[1] != "" and receptor_mensagem[1] != " ":
+								receptor = receptor_mensagem[0].split(" ", 1)[1]
+								corpo = receptor_mensagem[1]
+								
+								mensagem_private = bytes(nome + ":" + corpo, "utf8")
+
+								# Função para enviar mensagem privada
+								# Se a função retornar falso, não existe cliente com o nome indicado
+								if not send_to_one(receptor, mensagem_private):
+									# Retorna mensagem para o cliente
+									cliente.send(bytes("Nenhum cliente com este nome.", "utf8"))
+							else:
+								cliente.send(bytes("Digite o corpo da mensagem.", "utf8"))
+						else:
+							cliente.send(bytes("Digite o nick do receptor.", "utf8"))
+
+					elif tipo == "NICK":
+						# Função para troca de nick
+						change_nick(mensagem, cliente)
 					
-
-					receptor = receptor_mensagem[0]
-					mensagem = bytes(nome + ": " + receptor_mensagem[1], "utf8")
-
-					# Função para enviar mensagem privada
-					# Se a função retornar falso, não existe cliente com o nome indicado
-					if not send_to_one(receptor, mensagem):
-						# Retorna mensagem para o cliente
-						cliente.send(bytes("Nenhum cliente com este nome.", "utf8"))
-
-				elif tipo == "NICK":
-					# Função para troca de nick
-					change_nick(mensagem, cliente)
-				
-				# Tipo de mensagem inválido
-				else:
-					cliente.send(bytes("Tipo de mensagem inexistente", "utf8"))
-
+					# Tipo de mensagem inválido
+					else:
+						cliente.send(bytes("Tipo de mensagem inexistente", "utf8"))
+				else: 
+					cliente.send(bytes("Digite uma mensagem", "utf8"))
 			# Nenhum tipo indicado
 			else:
 				cliente.send(bytes("A mensagem precisa ter um tipo (MSG, PRIVATE, NICK, SNDFILE ou RECFILE", "utf8"))
