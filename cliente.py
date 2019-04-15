@@ -84,10 +84,13 @@ class Chat(Screen):
                 Window.close()
                 cliente.send(bytes(msg, 'utf8'))
             
-                
             cliente.send(bytes(msg, 'utf8'))         
         except Exception as a:
             print('Ocorreu algum erro', a)
+
+    def verifica_msg(self, msg):
+        if not msg == 'MSG: ' or msg == 'PRIVATE: ' or msg == 'NICK ': 
+            sm.get_screen('chat').ids.enviar.disabled = False
 
     def spinner(self, spinner, text):
         if text == 'MSG':

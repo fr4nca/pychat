@@ -22,7 +22,7 @@
             text:'Pychat'
             font_name:'src/coolveticarg.ttf'
             pos_hint:{'center_x':.5, 'center_y':.7}
-            font_size:sp(60)
+            font_size:sp(72)
             color:C('#000000')
 
         TextInput:
@@ -103,7 +103,10 @@
             values: ('MSG', 'PRIVATE', 'NICK', 'EXIT')
             size_hint:.1, .1
             pos_hint:{'center_x':.1, 'center_y':.1}
-            on_text: root.spinner(spinner_type, spinner_type.text)
+            on_text: 
+                root.spinner(spinner_type, spinner_type.text)
+                enviar.disabled=True
+
 
         TextInput:
 			id:msg
@@ -118,15 +121,20 @@
                 root.send_msg(msg.text)
                 msg.text='MSG: '
                 spinner_type.text='TIPO'
+            on_text: root.verifica_msg(msg.text)
 
         Button:
+            id:enviar
             background_color: C('#003399')
             size_hint:.2, .1
             text:'Enviar'
             font_name:'src/Roboto-Light.ttf'
             pos_hint:{'center_x':.85, 'center_y':.1}
+            disabled: True
 			on_press:
 				root.send_msg(msg.text)
                 msg.text='MSG: '
                 spinner_type.text='TIPO'
+                self.disabled=True
+            
                 
