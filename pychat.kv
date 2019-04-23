@@ -1,6 +1,10 @@
+# Arquivo KvLang contendo os widgets e suas propriedades
+
+
+# importação
 #:import C kivy.utils.get_color_from_hex
 
-
+# Classe Inicial com os widgets e suas propriedades
 <Inicial>:
     name:'inicial'
     FloatLayout:
@@ -34,10 +38,17 @@
             size_hint:(.4, .1)
             halign:"center"
             multiline:False
+
+            # Método que valida o Texto do Widget TextInput
             on_text_validate: 
+                # Envia o texto do TextInput para o servidor
                 root.send(nickname.text)
+                # Direciona o app para a tela Chat
                 root.manager.current='chat'
+
+            # Método que captura qualquer texto introduzido no TextInput
             on_text:
+                # Envia o texto do TextInput para validar o Botão de Enviar
                 root.verificanick(nickname.text)
 
         Button:
@@ -48,15 +59,21 @@
             bold:True
             pos_hint:{'center_x':.5, 'center_y':.25}
             font_size:sp(24)
-            on_press:
-                root.send(nickname.text)
-                root.manager.current='chat'
             background_color: C('#003399')
             disabled: True
 
+            # Método da ação de pressionar o botão
+            on_press:
+                # Envia o texto do TextInput para o servidor
+                root.send(nickname.text)
+                # Direciona o app para a tela Chat
+                root.manager.current='chat'
+
+            
+
         
 
-
+# Classe Chat com os widgets e suas propriedades
 <Chat>:
     name:'chat'
     msgbox:box
@@ -103,11 +120,12 @@
             values: ('MSG', 'PRIVATE', 'NICK', 'EXIT')
             size_hint:.1, .1
             pos_hint:{'center_x':.1, 'center_y':.1}
+
+            # Método que verifica a propriedade text do Widget
             on_text: 
+                # Valida o texto
                 root.spinner(spinner_type, spinner_type.text)
                 
-
-
         TextInput:
 			id:msg
             font_size:18
@@ -117,11 +135,20 @@
             pos_hint:{'center_x':.45, 'center_y':.1}
             hint_text:'Digite sua mensagem aqui'
             multiline:False
+
+            # Método que valida o Texto do Widget TextInput
             on_text_validate: 
+                # Envia o texto do TextInput para o servidor
                 root.send_msg(msg.text)
+                # reseta o text
                 msg.text='MSG: '
+                # reseta o text do Widget Spinner
                 spinner_type.text='TIPO'
-            on_text: root.verifica_msg(msg.text)
+
+            # Método que captura qualquer texto introduzido no TextInput
+            on_text: 
+                # Envia o texto do TextInput para validar o Botão de Enviar
+                root.verifica_msg(msg.text)
 
         Button:
             id:enviar
@@ -131,10 +158,16 @@
             font_name:'src/Roboto-Light.ttf'
             pos_hint:{'center_x':.85, 'center_y':.1}
             disabled: True
+            
+            # Método da ação de pressionar o botão
 			on_press:
+                # Envia o texto do TextInput para o servidor
 				root.send_msg(msg.text)
+                # reseta o text
                 msg.text='MSG: '
+                # reseta o text do Widget Spinner
                 spinner_type.text='TIPO'
+                # reseta o estado para desativado
                 self.disabled=True
             
                 
