@@ -21,8 +21,6 @@ PORT = 12332
 global cliente
 global sm
 
-
-
 try:
     # Inicializa o socket do cliente
     # AF_INET indica IPv4

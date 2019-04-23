@@ -58,6 +58,7 @@ def handle_client(cliente):
 						receptor_mensagem = mensagem.split(":", 1)
 
 						if len(receptor_mensagem) >= 2:
+							#Verificação de mensagem vazia
 							if receptor_mensagem[1] != "" and receptor_mensagem[1] != " ":
 								receptor = receptor_mensagem[0].split(" ", 1)[1]
 								corpo = receptor_mensagem[1]
